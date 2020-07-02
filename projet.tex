@@ -1,0 +1,1218 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+    \usepackage{iftex}
+    \ifPDFTeX
+    	\usepackage[T1]{fontenc}
+    	\usepackage{mathpazo}
+    \else
+    	\usepackage{fontspec}
+    \fi
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range
+    \makeatletter % fix for grffile with XeLaTeX
+    \def\Gread@@xetex#1{%
+      \IfFileExists{"\Gin@base".bb}%
+      {\Gread@eps{\Gin@base.bb}}%
+      {\Gread@@xetex@aux#1}%
+    }
+    \makeatother
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{projet}
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@fm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sa\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@dl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb. 
+    \makeatletter
+        \newbox\Wrappedcontinuationbox 
+        \newbox\Wrappedvisiblespacebox 
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}} 
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}} 
+        \newcommand*\Wrappedcontinuationindent {3ex } 
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox} 
+        % Take advantage of the already applied Pygments mark-up to insert 
+        % potential linebreaks for TeX processing. 
+        %        {, <, #, %, $, ' and ": go to next line. 
+        %        _, }, ^, &, >, - and ~: stay at end of broken line. 
+        % Use of \textquotesingle for straight quote. 
+        \newcommand*\Wrappedbreaksatspecials {% 
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}% 
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}% 
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}% 
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}% 
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}% 
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}% 
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}% 
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}% 
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}% 
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}% 
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}% 
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}% 
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}% 
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}% 
+        } 
+        % Some characters . , ; ? ! / are not pygmentized. 
+        % This macro makes them "active" and they will insert potential linebreaks 
+        \newcommand*\Wrappedbreaksatpunct {% 
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}% 
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}% 
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}% 
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}% 
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}% 
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}% 
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}% 
+            \catcode`\.\active
+            \catcode`\,\active 
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active 
+            \lccode`\~`\~ 	
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+        
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active 	
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+    
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        \ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    \hypertarget{introduction}{%
+\section{1. Introduction}\label{introduction}}
+
+Nous avons pour projet d'utliser des concepts d'apprentissage fédérés
+pour construire un pipeline d'apprentissage automatique basé sur des
+appareils mobiles et des appareils informatiques à carte unique tels que
+Raspberry .
+
+Youtube est la plus grande plate-forme vidéo au monde avec des millions
+d'utilisateurs simultanés au quotidien et une grande influence sur le
+comportement, les croyances et les opinions des clients. De ce fait,
+l'optimisation des performances vidéo a acquis une valeur économique
+tangible et de nombreusesentreprises l'utilisent pour gagner en traction
+et susciter l'intérêt pour leurs produits et services.
+
+Dans cette étude, nous visons à créer un modèle pour analyser les effets
+des balises vidéo dans les performances d'une vidéo. Nous explorerons à
+la fois les caractéristiques quantitatives et qualitatives des balises
+vidéo, en les comparant aux performances globales de la vidéo à travers
+une série de mesures telles que le nombre de vues, le rapport j'aime /
+n'aime pas et le nombre de jours de tendance.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{38}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k}{as} \PY{n+nn}{pd}
+\PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+\PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+\PY{k+kn}{import} \PY{n+nn}{seaborn} \PY{k}{as} \PY{n+nn}{sns}
+\PY{k+kn}{import} \PY{n+nn}{json}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{datasets}{%
+\section{2. Datasets}\label{datasets}}
+
+\hypertarget{uxe0-propos-des-donnuxe9es}{%
+\subsection{2.1 À propos des données}\label{uxe0-propos-des-donnuxe9es}}
+
+Datasets utilisé: Trending YouTube Video Statistics
+
+L'ensemble de données se compose d'enregistrements quotidiens des 200
+vidéos YouTube les plus populaires, classés par pays. Aux fins de cette
+analyse, nous nous concentrerons sur les vidéos provenant de France
+(FR), Grande-Bretagne (GB), et l'Allemagne (DE) pour la période comprise
+entre le 14 novembre 2017 et le 14 juin 2018, soit un total de 205
+jours.
+
+Nous avons dans un premier etudié les caractéristiques de chaque pays
+indépendamment, puis dans un second temps comparer ceux-ci entre eux.
+
+La description des colonnes pertinentes de l'ensemble de données est
+présentée dans le tableau ci-dessous.
+
+    \begin{longtable}[]{@{}llll@{}}
+\toprule
+\begin{minipage}[b]{0.32\columnwidth}\raggedright
+Columns Header\strut
+\end{minipage} & \begin{minipage}[b]{0.18\columnwidth}\raggedright
+Quantity\strut
+\end{minipage} & \begin{minipage}[b]{0.14\columnwidth}\raggedright
+Type\strut
+\end{minipage} & \begin{minipage}[b]{0.25\columnwidth}\raggedright
+Description\strut
+\end{minipage}\tabularnewline
+\midrule
+\endhead
+\begin{minipage}[t]{0.32\columnwidth}\raggedright
+video\_id\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+40949\strut
+\end{minipage} & \begin{minipage}[t]{0.14\columnwidth}\raggedright
+object\strut
+\end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
+Unique Value for each video\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.32\columnwidth}\raggedright
+trending\_date\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+40949\strut
+\end{minipage} & \begin{minipage}[t]{0.14\columnwidth}\raggedright
+object\strut
+\end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
+Date in which video is trending. Video can trend for over a day.\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.32\columnwidth}\raggedright
+title\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+40949\strut
+\end{minipage} & \begin{minipage}[t]{0.14\columnwidth}\raggedright
+object\strut
+\end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
+Video's title\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.32\columnwidth}\raggedright
+channel\_title\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+40949\strut
+\end{minipage} & \begin{minipage}[t]{0.14\columnwidth}\raggedright
+object\strut
+\end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
+Name of uploading channel\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.32\columnwidth}\raggedright
+category\_id\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+40949\strut
+\end{minipage} & \begin{minipage}[t]{0.14\columnwidth}\raggedright
+int64\strut
+\end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
+Video category\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.32\columnwidth}\raggedright
+publish\_time\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+40949\strut
+\end{minipage} & \begin{minipage}[t]{0.14\columnwidth}\raggedright
+object\strut
+\end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
+Time of upload\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.32\columnwidth}\raggedright
+tags\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+40949\strut
+\end{minipage} & \begin{minipage}[t]{0.14\columnwidth}\raggedright
+object\strut
+\end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
+Tags associated with the video\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.32\columnwidth}\raggedright
+views\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+40949\strut
+\end{minipage} & \begin{minipage}[t]{0.14\columnwidth}\raggedright
+int64\strut
+\end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
+Number of views\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.32\columnwidth}\raggedright
+likes\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+40949\strut
+\end{minipage} & \begin{minipage}[t]{0.14\columnwidth}\raggedright
+int64\strut
+\end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
+Number of likes\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.32\columnwidth}\raggedright
+dislikes\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+40949\strut
+\end{minipage} & \begin{minipage}[t]{0.14\columnwidth}\raggedright
+int64\strut
+\end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
+Number of dislikes\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.32\columnwidth}\raggedright
+comment\_count\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+40949\strut
+\end{minipage} & \begin{minipage}[t]{0.14\columnwidth}\raggedright
+int64\strut
+\end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
+Number of comments\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.32\columnwidth}\raggedright
+comments\_disabled\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+40949\strut
+\end{minipage} & \begin{minipage}[t]{0.14\columnwidth}\raggedright
+bool\strut
+\end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
+Comment section enabled or not\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.32\columnwidth}\raggedright
+ratings\_disabled\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+40949\strut
+\end{minipage} & \begin{minipage}[t]{0.14\columnwidth}\raggedright
+bool\strut
+\end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
+Like/Dislike ratio shown\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.32\columnwidth}\raggedright
+video\_error\_or\_removed\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+40949\strut
+\end{minipage} & \begin{minipage}[t]{0.14\columnwidth}\raggedright
+bool\strut
+\end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
+Was the video deleted or not\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.32\columnwidth}\raggedright
+description\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+40379\strut
+\end{minipage} & \begin{minipage}[t]{0.14\columnwidth}\raggedright
+object\strut
+\end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
+Video description\strut
+\end{minipage}\tabularnewline
+\bottomrule
+\end{longtable}
+
+    \hypertarget{muxe9thodologie}{%
+\section{3. Méthodologie}\label{muxe9thodologie}}
+
+\hypertarget{comprendre-les-performances-viduxe9o}{%
+\subsection{3.1 Comprendre les ``performances
+vidéo''}\label{comprendre-les-performances-viduxe9o}}
+
+Il existe de nombreuses façons différentes de mesurer les performances
+d'une vidéo. Dans notre étude, nous examinerons les performances vidéo
+sur la base de 2 aspects clés: - \textbf{1. L'aspect de Popularité} Nous
+etudirins ici les indicateurs relevant : - (Nombre de) J'aime - (Nombre
+de) commentaire
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{2. L'Engagement}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    (Nombre de) vues
+  \item
+    durée de la tendance = (date actuelle - date\_tendance)
+  \end{itemize}
+\end{itemize}
+
+    \hypertarget{laspect-de-popularituxe9}{%
+\subsubsection{3.1.1 L'aspect de
+Popularité}\label{laspect-de-popularituxe9}}
+
+Tout d'habors, nous avons pris connaissance du dataset en explorant les
+idicateurs relevants le nombre de j'aime et de commentaire en plotant
+nos premiers histograms.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{39}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{videos} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{FRvideos.csv}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{rc}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{figure.subplot}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{wspace}\PY{o}{=}\PY{l+m+mf}{0.9}\PY{p}{)}
+\PY{n}{fig}\PY{p}{,} \PY{n}{ax} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{p}{)}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{sns}\PY{o}{.}\PY{n}{distplot}\PY{p}{(}\PY{n}{videos}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{likes}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{n}{kde}\PY{o}{=}\PY{k+kc}{False}\PY{p}{,} \PY{n}{hist\PYZus{}kws}\PY{o}{=}\PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{alpha}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mi}{1}\PY{p}{\PYZcb{}}\PY{p}{,} 
+                 \PY{n}{bins}\PY{o}{=}\PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mf}{6e6}\PY{p}{,} \PY{l+m+mi}{61}\PY{p}{)}\PY{p}{,} \PY{n}{ax}\PY{o}{=}\PY{n}{ax}\PY{p}{)}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{ax}\PY{o}{.}\PY{n}{set}\PY{p}{(}\PY{n}{xlabel}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Likes}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{ylabel}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{No. of videos}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{xticks}\PY{p}{(}\PY{n}{rotation}\PY{o}{=}\PY{l+m+mi}{90}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{projet_files/projet_6_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    Nous notons que la grande majorité des vidéos tendances ont entre 0 et 1
+000 000 likes. Laissez-nous tracer l'histogramme uniquement pour les
+vidéos avec 100 000 likes ou moin s pour voir de plus près la
+distribution des données
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{40}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig}\PY{p}{,} \PY{n}{ax} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{p}{)}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{sns}\PY{o}{.}\PY{n}{distplot}\PY{p}{(}\PY{n}{videos}\PY{p}{[}\PY{n}{videos}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{likes}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{l+m+mf}{1e5}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{likes}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{n}{kde}\PY{o}{=}\PY{k+kc}{False}\PY{p}{,} \PY{n}{hist\PYZus{}kws}\PY{o}{=}\PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{alpha}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mi}{1}\PY{p}{\PYZcb{}}\PY{p}{,} \PY{n}{ax}\PY{o}{=}\PY{n}{ax}\PY{p}{)}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{ax}\PY{o}{.}\PY{n}{set}\PY{p}{(}\PY{n}{xlabel}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Likes}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{ylabel}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{No. of videos}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{projet_files/projet_8_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    Maintenant, nous pouvons voir que la majorité des vidéos tendances ont
+40000 likes ou moins avec un pic pour les vidéos avec 2000 likes ou
+moins.
+
+Voyons le pourcentage exact de vidéos avec moins de 40000 likes
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{41}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{videos}\PY{p}{[}\PY{n}{videos}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{likes}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{\PYZlt{}} \PY{l+m+mf}{4e4}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{likes}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{count}\PY{p}{(}\PY{p}{)} \PY{o}{/} \PY{n}{videos}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{likes}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{count}\PY{p}{(}\PY{p}{)} \PY{o}{*} \PY{l+m+mi}{100}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{41}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+92.06119241724781
+\end{Verbatim}
+\end{tcolorbox}
+        
+    De même, nous pouvons voir que le pourcentage de vidéos avec moins de
+100 000 likes est d'environ 92\%
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{42}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig}\PY{p}{,} \PY{n}{ax} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{p}{)}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{sns}\PY{o}{.}\PY{n}{distplot}\PY{p}{(}\PY{n}{videos}\PY{p}{[}\PY{n}{videos}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{comment\PYZus{}count}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{\PYZlt{}} \PY{l+m+mi}{200000}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{comment\PYZus{}count}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{n}{kde}\PY{o}{=}\PY{k+kc}{False}\PY{p}{,} \PY{n}{rug}\PY{o}{=}\PY{k+kc}{False}\PY{p}{,} \PY{n}{hist\PYZus{}kws}\PY{o}{=}\PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{alpha}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mi}{1}\PY{p}{\PYZcb{}}\PY{p}{,} 
+                 \PY{n}{bins}\PY{o}{=}\PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mf}{2e5}\PY{p}{,} \PY{l+m+mi}{49}\PY{p}{)}\PY{p}{,} \PY{n}{ax}\PY{o}{=}\PY{n}{ax}\PY{p}{)}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{ax}\PY{o}{.}\PY{n}{set}\PY{p}{(}\PY{n}{xlabel}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Comment Count}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{ylabel}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{No. of videos}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{projet_files/projet_12_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{43}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{videos}\PY{p}{[}\PY{n}{videos}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{likes}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{\PYZlt{}} \PY{l+m+mi}{4000}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{likes}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{count}\PY{p}{(}\PY{p}{)} \PY{o}{/} \PY{n}{videos}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{likes}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{count}\PY{p}{(}\PY{p}{)} \PY{o}{*} \PY{l+m+mi}{100}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{43}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+63.75110499950889
+\end{Verbatim}
+\end{tcolorbox}
+        
+    De même, nous pouvons voir que le pourcentage de commentaire avec moins
+de 4000 likes est d'environ 63\%
+
+    \hypertarget{lengagement}{%
+\subsubsection{3.1.2 L'Engagement}\label{lengagement}}
+
+Dans cette partie, nous etudions: - (Nombre de) vues - durée de la
+tendance = (date actuelle - date\_tendance)
+
+Avant l'algorithme réel, nous devons sélectionner nos données d'entrée.
+
+    Tout d'abord, les vidéos qui ne sont pas utiles pour notre cas sont
+supprimées de l'échantillon. Cela inclut les vidéos avec des erreurs, où
+les commentaires et / ou les évaluations sont désactivés et les vidéos
+en double.
+
+Par la suite, nous avons ajouter deux colonnes : ``publish\_time'' et
+``trending\_date''. Nous les avons reformaté pour pouvoir par la suite
+etudier plus facilement la correlation entre les dates de sorties des
+videos, et leur appartions en tendance.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{44}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} count days of trending}
+\PY{c+c1}{\PYZsh{} trending\PYZus{}period = videos\PYZus{}clean.groupby([\PYZsq{}video\PYZus{}id\PYZsq{}]).size().reset\PYZus{}index(name=\PYZsq{}trending\PYZus{}period\PYZsq{})}
+
+\PY{n}{videos\PYZus{}clean} \PY{o}{=} \PY{n}{videos}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{n}{columns}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{thumbnail\PYZus{}link}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{comments\PYZus{}disabled}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ratings\PYZus{}disabled}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{video\PYZus{}error\PYZus{}or\PYZus{}removed}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{description}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{publish\PYZus{}time}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{trending\PYZus{}date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} formating date}
+\PY{n}{videos\PYZus{}clean}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{publish\PYZus{}time}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{to\PYZus{}datetime}\PY{p}{(}\PY{n}{videos}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{publish\PYZus{}time}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n+nb}{format}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZpc{}}\PY{l+s+s1}{Y\PYZhy{}}\PY{l+s+s1}{\PYZpc{}}\PY{l+s+s1}{m\PYZhy{}}\PY{l+s+si}{\PYZpc{}d}\PY{l+s+s1}{T}\PY{l+s+s1}{\PYZpc{}}\PY{l+s+s1}{H:}\PY{l+s+s1}{\PYZpc{}}\PY{l+s+s1}{M:}\PY{l+s+s1}{\PYZpc{}}\PY{l+s+s1}{S.000Z}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{utc}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+\PY{n}{videos\PYZus{}clean}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{trending\PYZus{}date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{to\PYZus{}datetime}\PY{p}{(}\PY{n}{videos}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{trending\PYZus{}date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n+nb}{format}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZpc{}}\PY{l+s+s1}{y.}\PY{l+s+si}{\PYZpc{}d}\PY{l+s+s1}{.}\PY{l+s+s1}{\PYZpc{}}\PY{l+s+s1}{m}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{utc}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} drop duplicate and keep newest videos}
+\PY{n}{videos\PYZus{}clean} \PY{o}{=} \PY{n}{videos\PYZus{}clean}\PY{o}{.}\PY{n}{sort\PYZus{}values}\PY{p}{(}\PY{n}{by}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{trending\PYZus{}date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{reset\PYZus{}index}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{45}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{views\PYZus{}trending} \PY{o}{=} \PY{n}{videos\PYZus{}clean}\PY{o}{.}\PY{n}{filter}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{video\PYZus{}id}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{views}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{trending\PYZus{}date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{views\PYZus{}trending\PYZus{}grouped} \PY{o}{=} \PY{n}{views\PYZus{}trending}\PY{o}{.}\PY{n}{groupby}\PY{p}{(}\PY{n}{by}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{video\PYZus{}id}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{n}{views\PYZus{}increase} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{views\PYZus{}trending\PYZus{}grouped}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{views}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{count}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+
+\PY{n}{views\PYZus{}diff} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+\PY{k}{for} \PY{n}{video\PYZus{}id} \PY{o+ow}{in} \PY{n}{views\PYZus{}trending\PYZus{}grouped}\PY{o}{.}\PY{n}{groups}\PY{p}{:}
+    \PY{n}{video\PYZus{}group} \PY{o}{=} \PY{n}{views\PYZus{}trending\PYZus{}grouped}\PY{o}{.}\PY{n}{get\PYZus{}group}\PY{p}{(}\PY{n}{video\PYZus{}id}\PY{p}{)}
+    \PY{n}{views\PYZus{}diff}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{video\PYZus{}group}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{views}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{p}{)} \PY{o}{\PYZhy{}} \PY{n}{video\PYZus{}group}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{views}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{min}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\PY{n}{views\PYZus{}increase}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{views\PYZus{}diff}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{views\PYZus{}diff}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Par la suite, nous avons selectionné uniquement les videos qui sont
+restées en tendance plus d'un jour. Nous avons vu ainsi evaluer le
+nombre de vue gagné pour les videos.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{46}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{views\PYZus{}increase\PYZus{}multi\PYZus{}days} \PY{o}{=} \PY{n}{views\PYZus{}increase}\PY{p}{[}\PY{n}{views\PYZus{}increase}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{views}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{!=} \PY{l+m+mi}{1}\PY{p}{]}
+
+\PY{n}{views\PYZus{}increase\PYZus{}multi\PYZus{}days}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{views\PYZus{}diff\PYZus{}per\PYZus{}day}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{views\PYZus{}increase\PYZus{}multi\PYZus{}days}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{views\PYZus{}diff}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{/} \PY{n}{views\PYZus{}increase\PYZus{}multi\PYZus{}days}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{views}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+
+\PY{n}{nb\PYZus{}vid} \PY{o}{=} \PY{n+nb}{len}\PY{p}{(}\PY{n}{views\PYZus{}increase\PYZus{}multi\PYZus{}days}\PY{p}{)}
+\PY{n}{percentage} \PY{o}{=} \PY{l+m+mi}{1}\PY{o}{/}\PY{l+m+mi}{100}
+\PY{n}{keeped\PYZus{}video} \PY{o}{=} \PY{n+nb}{int}\PY{p}{(}\PY{n}{nb\PYZus{}vid}\PY{o}{*}\PY{n}{percentage}\PY{p}{)}
+
+\PY{n}{views\PYZus{}increase\PYZus{}multi\PYZus{}days}\PY{o}{.}\PY{n}{describe}\PY{p}{(}\PY{p}{)}
+\PY{n}{views\PYZus{}increase\PYZus{}multi\PYZus{}days}\PY{o}{.}\PY{n}{sort\PYZus{}values}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{views\PYZus{}diff\PYZus{}per\PYZus{}day}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{n}{view} \PY{o}{=} \PY{n}{views\PYZus{}increase\PYZus{}multi\PYZus{}days}\PY{o}{.}\PY{n}{sort\PYZus{}values}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{views\PYZus{}diff\PYZus{}per\PYZus{}day}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{[}\PY{p}{:}\PY{n}{keeped\PYZus{}video}\PY{p}{]}
+\PY{n}{view}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{y}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{views\PYZus{}diff\PYZus{}per\PYZus{}day}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,}\PY{l+m+mi}{7}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Gain de vue par journée en tendance}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Vidéos en tendance plusieur jour}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Nombre de vue}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+c:\textbackslash{}python37\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}ipykernel\_launcher.py:3: SettingWithCopyWarning:
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row\_indexer,col\_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-
+docs/stable/user\_guide/indexing.html\#returning-a-view-versus-a-copy
+  This is separate from the ipykernel package so we can avoid doing imports
+until
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{projet_files/projet_20_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{conclusion-2.engagement}{%
+\section{\textgreater\textgreater\textgreater{} CONCLUSION 2.Engagement
+\textless\textless\textless{}}\label{conclusion-2.engagement}}
+
+    \hypertarget{impact-de-la-date-de-parution}{%
+\subsection{3.2 Impact de la date de
+parution}\label{impact-de-la-date-de-parution}}
+
+\hypertarget{objectif}{%
+\subsubsection{3.2.1 Objectif}\label{objectif}}
+
+Nous nous somme posé la question si le jour de parution de la vidéo
+pouvais optimiser nos chance de rentrer en tendance.
+
+L'objectif de cette analyse est savoir qu'elle jour est le plus propice
+pour poster une vidéo. On peut essayer de chercher des indice en
+mesurant pour chaque video la difference entre son jour de publication
+et celui de son entré en tendance. Puis des les afficher par jour. On
+pourrait alors par la suite essayer de regarder par category pour voir
+si certaine catégorie ce demarque de la tendance génerale.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{47}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k}{as} \PY{n+nn}{pd}
+\PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+\PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+
+\PY{k}{def} \PY{n+nf}{clean\PYZus{}youtube\PYZus{}dataset}\PY{p}{(}\PY{n}{csv\PYZus{}file}\PY{p}{,} \PY{n}{keeped}\PY{p}{)}\PY{p}{:}
+    \PY{n}{videos} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{n}{csv\PYZus{}file}\PY{p}{)}
+
+    \PY{n}{videos\PYZus{}clean} \PY{o}{=} \PY{n}{videos}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{n}{columns}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{thumbnail\PYZus{}link}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{comments\PYZus{}disabled}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ratings\PYZus{}disabled}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{video\PYZus{}error\PYZus{}or\PYZus{}removed}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{description}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{publish\PYZus{}time}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{trending\PYZus{}date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} formating date}
+    \PY{n}{videos\PYZus{}clean}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{publish\PYZus{}time}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{to\PYZus{}datetime}\PY{p}{(}\PY{n}{videos}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{publish\PYZus{}time}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n+nb}{format}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZpc{}}\PY{l+s+s1}{Y\PYZhy{}}\PY{l+s+s1}{\PYZpc{}}\PY{l+s+s1}{m\PYZhy{}}\PY{l+s+si}{\PYZpc{}d}\PY{l+s+s1}{T}\PY{l+s+s1}{\PYZpc{}}\PY{l+s+s1}{H:}\PY{l+s+s1}{\PYZpc{}}\PY{l+s+s1}{M:}\PY{l+s+s1}{\PYZpc{}}\PY{l+s+s1}{S.000Z}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{utc}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+    \PY{n}{videos\PYZus{}clean}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{trending\PYZus{}date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{to\PYZus{}datetime}\PY{p}{(}\PY{n}{videos}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{trending\PYZus{}date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n+nb}{format}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZpc{}}\PY{l+s+s1}{y.}\PY{l+s+si}{\PYZpc{}d}\PY{l+s+s1}{.}\PY{l+s+s1}{\PYZpc{}}\PY{l+s+s1}{m}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{utc}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} drop duplicate and keep newest videos}
+    \PY{k}{return} \PY{n}{videos\PYZus{}clean}\PY{o}{.}\PY{n}{sort\PYZus{}values}\PY{p}{(}\PY{n}{by}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{trending\PYZus{}date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{drop\PYZus{}duplicates}\PY{p}{(}\PY{n}{subset}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{video\PYZus{}id}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{keep}\PY{o}{=}\PY{n}{keeped}\PY{p}{)}\PY{o}{.}\PY{n}{reset\PYZus{}index}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{FRvideos} \PY{o}{=} \PY{n}{clean\PYZus{}youtube\PYZus{}dataset}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FRvideos.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{first}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{GBvideos} \PY{o}{=} \PY{n}{clean\PYZus{}youtube\PYZus{}dataset}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{GBvideos.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{first}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{DEvideos} \PY{o}{=} \PY{n}{clean\PYZus{}youtube\PYZus{}dataset}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DEvideos.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{first}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{48}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{trending\PYZus{}time\PYZus{}mean\PYZus{}per\PYZus{}week}\PY{p}{(} \PY{n}{videos}\PY{p}{,} \PY{n}{title}\PY{p}{)}\PY{p}{:}
+    \PY{n}{videos} \PY{o}{=} \PY{n}{videos}\PY{o}{.}\PY{n}{filter}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{trending\PYZus{}date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{publish\PYZus{}time}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+    
+    \PY{c+c1}{\PYZsh{} remove video before november 2017}
+    \PY{n}{videos} \PY{o}{=} \PY{n}{videos}\PY{p}{[}\PY{n}{videos}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{publish\PYZus{}time}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{\PYZgt{}} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{2017\PYZhy{}11\PYZhy{}1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+    
+    \PY{c+c1}{\PYZsh{} add column with day day of the week}
+    \PY{n}{videos}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{day\PYZus{}of\PYZus{}the\PYZus{}week}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{videos}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{trending\PYZus{}date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{dt}\PY{o}{.}\PY{n}{dayofweek}
+    
+    \PY{n}{videos}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{time\PYZus{}to\PYZus{}trended}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{videos}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{trending\PYZus{}date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{videos}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{publish\PYZus{}time}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+    \PY{n}{videos}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{time\PYZus{}to\PYZus{}trended\PYZus{}seconds}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{videos}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{time\PYZus{}to\PYZus{}trended}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{dt}\PY{o}{.}\PY{n}{seconds} \PY{o}{+} \PY{n}{videos}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{time\PYZus{}to\PYZus{}trended}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{dt}\PY{o}{.}\PY{n}{days} \PY{o}{*} \PY{l+m+mi}{86400}
+    \PY{n}{videos}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{time\PYZus{}to\PYZus{}trended\PYZus{}days}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{videos}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{time\PYZus{}to\PYZus{}trended\PYZus{}seconds}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{/} \PY{p}{(}\PY{l+m+mi}{60} \PY{o}{*} \PY{l+m+mi}{60} \PY{o}{*} \PY{l+m+mi}{24}\PY{p}{)}
+
+    \PY{n}{videos\PYZus{}per\PYZus{}day} \PY{o}{=} \PY{n}{videos}\PY{o}{.}\PY{n}{groupby}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{day\PYZus{}of\PYZus{}the\PYZus{}week}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+    \PY{n}{videos\PYZus{}per\PYZus{}day} \PY{o}{=} \PY{n}{videos\PYZus{}per\PYZus{}day}\PY{o}{.}\PY{n}{reset\PYZus{}index}\PY{p}{(}\PY{p}{)}
+    
+    \PY{c+c1}{\PYZsh{} convert number to day name}
+    \PY{n}{days\PYZus{}of\PYZus{}week} \PY{o}{=} \PY{p}{\PYZob{}}\PY{l+m+mi}{0}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Monday}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Thuesday}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Wenesday}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Thursday}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Friday}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+m+mi}{5}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Saturday}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+m+mi}{6}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Sunday}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{p}{\PYZcb{}}
+    \PY{n}{videos\PYZus{}per\PYZus{}day}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{day\PYZus{}of\PYZus{}the\PYZus{}week}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{videos\PYZus{}per\PYZus{}day}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{day\PYZus{}of\PYZus{}the\PYZus{}week}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{map}\PY{p}{(}\PY{n}{days\PYZus{}of\PYZus{}week}\PY{p}{)}
+
+    \PY{n}{videos\PYZus{}per\PYZus{}day}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{kind}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bar}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{x}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{day\PYZus{}of\PYZus{}the\PYZus{}week}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{time\PYZus{}to\PYZus{}trended\PYZus{}days}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{red}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,}\PY{l+m+mi}{5}\PY{p}{)}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{n}{title}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{xticks}\PY{p}{(}\PY{n}{rotation}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Jour de la semaine}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Temps de publication moyen en jour}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+    \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Le premier choix fait a du etre de retirer les videos les plus vieilles
+j'ai donc choisi de prendre uniquement les vidéos publiées après
+novembre 2017, soit 2 semaine avant la premier date de tendance dans
+notre dataset.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# remove video before november 2017}
+\NormalTok{videos }\OperatorTok{=}\NormalTok{ videos[videos[}\StringTok{\textquotesingle{}publish\_time\textquotesingle{}}\NormalTok{] }\OperatorTok{\textgreater{}} \StringTok{\textquotesingle{}2017{-}11{-}1\textquotesingle{}}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+Cette opération a par exemple beaucoup corriger l'écart type dans le
+dataset d'Angleterre. Nous nous sommes rendu compte que beaucoup de
+video en tendance pendant cette période était ancienne .
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{49}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{trending\PYZus{}time\PYZus{}mean\PYZus{}per\PYZus{}week}\PY{p}{(}\PY{n}{FRvideos}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Moyenne du temps de publication d}\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{une video en tendance par jour de la semaine en France.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{projet_files/projet_26_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{50}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{trending\PYZus{}time\PYZus{}mean\PYZus{}per\PYZus{}week}\PY{p}{(}\PY{n}{DEvideos}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Moyenne du temps de publication d}\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{une video en tendance par jour de la semaine en Allemagne.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{projet_files/projet_27_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{51}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{trending\PYZus{}time\PYZus{}mean\PYZus{}per\PYZus{}week}\PY{p}{(}\PY{n}{GBvideos}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Moyenne du temps de publication d}\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{une video en tendance par jour de la semaine en Angleterre.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{projet_files/projet_28_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{analyse}{%
+\subsubsection{3.2.2 Analyse}\label{analyse}}
+
+On remaque peu de difference entre le dataset d'Allemagne est de la
+France la tendance est d'environ 12h, c'est-à-dire que les video sont en
+moyenne posté 12h a l'avance. Les données en angleterre sont beaucoup
+plus intéréssante. Tout d'abort on remarque que la moyenne est beaucoup
+plus proche de 3 jours. On note aussi que le mercredi, le jeudi et le
+vendredi les moyennes sont nettement inférieur au autre jour, environ 1
+jour et 12 heures. On peut donc conclure que les videos poster le lundi
+est le mardi sont plus propice à entrer en tendance.
+
+    \hypertarget{etude-sur-la-signification-des-tags}{%
+\subsection{3.3 Etude sur la signification des
+tags}\label{etude-sur-la-signification-des-tags}}
+
+\hypertarget{objectif-de-lanalyse}{%
+\subsubsection{3.3.1 Objectif de l'analyse}\label{objectif-de-lanalyse}}
+
+L'objectif de cette analyse est de comprendre comment évolue les tags
+des vidéos celon les dates de publication de celle ci, on pourra ainsi
+mettre en évidence l'influence de certaine période de l'année sur les
+tags ou encore d'événement marquant.
+
+    \hypertarget{nettoyage-des-donnuxe9es}{%
+\subsubsection{3.3.2 Nettoyage des
+données}\label{nettoyage-des-donnuxe9es}}
+
+Dans un premier temps on nettois les données du Dataframe sélectionné en
+retirant les colonnes non utile à la comprehension du dataframe, on met
+ensuite les dates du dataframe a format datetime de python pour
+faciliter le traitement des données. Ensuite on supprime les doublons du
+dataframe.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{52}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{videos\PYZus{}cleanfr} \PY{o}{=} \PY{n}{clean\PYZus{}youtube\PYZus{}dataset}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FRvideos.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{last}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{videos\PYZus{}cleande} \PY{o}{=} \PY{n}{clean\PYZus{}youtube\PYZus{}dataset}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{GBvideos.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{last}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{videos\PYZus{}cleangb} \PY{o}{=} \PY{n}{clean\PYZus{}youtube\PYZus{}dataset}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DEvideos.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{last}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \emph{La fonction explode permet de convertir une colonne de liste en
+une colonne avec toute les elements de toute les listes}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{53}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{explode}\PY{p}{(}\PY{n}{df}\PY{p}{,} \PY{n}{lst\PYZus{}cols}\PY{p}{,} \PY{n}{fill\PYZus{}value}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{preserve\PYZus{}index}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{p}{:}
+    \PY{c+c1}{\PYZsh{} make sure `lst\PYZus{}cols` is list\PYZhy{}alike}
+    \PY{k}{if} \PY{p}{(}\PY{n}{lst\PYZus{}cols} \PY{o+ow}{is} \PY{o+ow}{not} \PY{k+kc}{None}
+        \PY{o+ow}{and} \PY{n+nb}{len}\PY{p}{(}\PY{n}{lst\PYZus{}cols}\PY{p}{)} \PY{o}{\PYZgt{}} \PY{l+m+mi}{0}
+        \PY{o+ow}{and} \PY{o+ow}{not} \PY{n+nb}{isinstance}\PY{p}{(}\PY{n}{lst\PYZus{}cols}\PY{p}{,} \PY{p}{(}\PY{n+nb}{list}\PY{p}{,} \PY{n+nb}{tuple}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{ndarray}\PY{p}{,} \PY{n}{pd}\PY{o}{.}\PY{n}{Series}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+        \PY{n}{lst\PYZus{}cols} \PY{o}{=} \PY{p}{[}\PY{n}{lst\PYZus{}cols}\PY{p}{]}
+    \PY{c+c1}{\PYZsh{} all columns except `lst\PYZus{}cols`}
+    \PY{n}{idx\PYZus{}cols} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{columns}\PY{o}{.}\PY{n}{difference}\PY{p}{(}\PY{n}{lst\PYZus{}cols}\PY{p}{)}
+    \PY{c+c1}{\PYZsh{} calculate lengths of lists}
+    \PY{n}{lens} \PY{o}{=} \PY{n}{df}\PY{p}{[}\PY{n}{lst\PYZus{}cols}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{]}\PY{o}{.}\PY{n}{str}\PY{o}{.}\PY{n}{len}\PY{p}{(}\PY{p}{)}
+    \PY{c+c1}{\PYZsh{}cv preserve original index values    }
+    \PY{n}{idx} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{repeat}\PY{p}{(}\PY{n}{df}\PY{o}{.}\PY{n}{index}\PY{o}{.}\PY{n}{values}\PY{p}{,} \PY{n}{lens}\PY{p}{)}
+    \PY{c+c1}{\PYZsh{} create \PYZdq{}exploded\PYZdq{} DF}
+    \PY{n}{res} \PY{o}{=} \PY{p}{(}\PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{p}{\PYZob{}}
+                \PY{n}{col}\PY{p}{:}\PY{n}{np}\PY{o}{.}\PY{n}{repeat}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{n}{col}\PY{p}{]}\PY{o}{.}\PY{n}{values}\PY{p}{,} \PY{n}{lens}\PY{p}{)}
+                \PY{k}{for} \PY{n}{col} \PY{o+ow}{in} \PY{n}{idx\PYZus{}cols}\PY{p}{\PYZcb{}}\PY{p}{,}
+                \PY{n}{index}\PY{o}{=}\PY{n}{idx}\PY{p}{)}
+             \PY{o}{.}\PY{n}{assign}\PY{p}{(}\PY{o}{*}\PY{o}{*}\PY{p}{\PYZob{}}\PY{n}{col}\PY{p}{:}\PY{n}{np}\PY{o}{.}\PY{n}{concatenate}\PY{p}{(}\PY{n}{df}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{n}{lens}\PY{o}{\PYZgt{}}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{col}\PY{p}{]}\PY{o}{.}\PY{n}{values}\PY{p}{)}
+                            \PY{k}{for} \PY{n}{col} \PY{o+ow}{in} \PY{n}{lst\PYZus{}cols}\PY{p}{\PYZcb{}}\PY{p}{)}\PY{p}{)}
+    \PY{c+c1}{\PYZsh{} append those rows that have empty lists}
+    \PY{k}{if} \PY{p}{(}\PY{n}{lens} \PY{o}{==} \PY{l+m+mi}{0}\PY{p}{)}\PY{o}{.}\PY{n}{any}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+        \PY{c+c1}{\PYZsh{} at least one list in cells is empty}
+        \PY{n}{res} \PY{o}{=} \PY{p}{(}\PY{n}{res}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{df}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{n}{lens}\PY{o}{==}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{idx\PYZus{}cols}\PY{p}{]}\PY{p}{,} \PY{n}{sort}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+                  \PY{o}{.}\PY{n}{fillna}\PY{p}{(}\PY{n}{fill\PYZus{}value}\PY{p}{)}\PY{p}{)}
+    \PY{c+c1}{\PYZsh{} revert the original index order}
+    \PY{n}{res} \PY{o}{=} \PY{n}{res}\PY{o}{.}\PY{n}{sort\PYZus{}index}\PY{p}{(}\PY{p}{)}
+    \PY{c+c1}{\PYZsh{} reset index if requested}
+    \PY{k}{if} \PY{o+ow}{not} \PY{n}{preserve\PYZus{}index}\PY{p}{:}        
+        \PY{n}{res} \PY{o}{=} \PY{n}{res}\PY{o}{.}\PY{n}{reset\PYZus{}index}\PY{p}{(}\PY{n}{drop}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+    \PY{k}{return} \PY{n}{res}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{analyse-des-donnuxe9es}{%
+\subsubsection{3.3.3 Analyse des données}\label{analyse-des-donnuxe9es}}
+
+On peut tout d'abord visionner les tags les plus populaires de chaque
+dataframe sans les visionner par mois pour vérifier si les tags les plus
+populaires de l'année se retrouve ensuite dans les différent mois.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{54}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{tagsfr} \PY{o}{=} \PY{n}{videos\PYZus{}cleanfr}\PY{o}{.}\PY{n}{filter}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tags}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{tagsde} \PY{o}{=} \PY{n}{videos\PYZus{}cleande}\PY{o}{.}\PY{n}{filter}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tags}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{tagsgb} \PY{o}{=} \PY{n}{videos\PYZus{}cleangb}\PY{o}{.}\PY{n}{filter}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tags}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+
+\PY{n}{tagsfr}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tags}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{tagsfr}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tags}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{str}\PY{o}{.}\PY{n}{replace}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdq{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{tagsfr}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tags}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{tagsfr}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tags}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{str}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{|}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{tagsfr} \PY{o}{=} \PY{n}{explode}\PY{p}{(}\PY{n}{tagsfr}\PY{p}{,} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tags}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{fill\PYZus{}value}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{tags\PYZus{}most\PYZus{}usedfr} \PY{o}{=} \PY{n}{tagsfr}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tags}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{value\PYZus{}counts}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{l+m+mi}{25}\PY{p}{)}\PY{o}{.}\PY{n}{sort\PYZus{}values}\PY{p}{(}\PY{p}{)}
+\PY{n}{tags\PYZus{}most\PYZus{}usedfr}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{kind}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{barh}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                    \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,}\PY{l+m+mi}{10}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Tags les plus populaire en France}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{nombre de tags}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{tagsde}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tags}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{tagsde}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tags}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{str}\PY{o}{.}\PY{n}{replace}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdq{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{tagsde}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tags}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{tagsde}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tags}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{str}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{|}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{tagsde} \PY{o}{=} \PY{n}{explode}\PY{p}{(}\PY{n}{tagsde}\PY{p}{,} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tags}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{fill\PYZus{}value}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{tags\PYZus{}most\PYZus{}usedde} \PY{o}{=} \PY{n}{tagsde}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tags}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{value\PYZus{}counts}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{l+m+mi}{25}\PY{p}{)}\PY{o}{.}\PY{n}{sort\PYZus{}values}\PY{p}{(}\PY{p}{)}
+\PY{n}{tags\PYZus{}most\PYZus{}usedde}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{kind}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{barh}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                    \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,}\PY{l+m+mi}{10}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Tags les plus populaire en Allemagne}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{nombre de tags}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{tagsgb}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tags}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{tagsgb}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tags}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{str}\PY{o}{.}\PY{n}{replace}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdq{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{tagsgb}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tags}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{tagsgb}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tags}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{str}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{|}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{tagsgb} \PY{o}{=} \PY{n}{explode}\PY{p}{(}\PY{n}{tagsgb}\PY{p}{,} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tags}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{fill\PYZus{}value}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{tags\PYZus{}most\PYZus{}usedgb} \PY{o}{=} \PY{n}{tagsgb}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tags}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{value\PYZus{}counts}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{l+m+mi}{25}\PY{p}{)}\PY{o}{.}\PY{n}{sort\PYZus{}values}\PY{p}{(}\PY{p}{)}
+\PY{n}{tags\PYZus{}most\PYZus{}usedgb}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{kind}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{barh}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                    \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,}\PY{l+m+mi}{10}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Tags les plus populaire en Angleterre}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{nombre de tags}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{projet_files/projet_36_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{projet_files/projet_36_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{projet_files/projet_36_2.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    Dans la cellule précedente on peut remarquer que le ``tag'' le plus
+utilisé dans les vidéos Allemande et Francaise en tendance est le tag
+{[}none{]} en réalité cela signifie que la plupart du temps ces vidéos
+ne comporte pas de tag, mais est-ce le cas si on visionne l'utilisation
+des tags par mois? C'est ce que l'on va visionner maintenant :
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{55}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{display\PYZus{}tag\PYZus{}per\PYZus{}country}\PY{p}{(}\PY{n}{videos\PYZus{}clean}\PY{p}{)}\PY{p}{:}
+    \PY{n}{tags\PYZus{}days} \PY{o}{=} \PY{n}{videos\PYZus{}clean}\PY{o}{.}\PY{n}{filter}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tags}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{trending\PYZus{}date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+    \PY{n}{tags\PYZus{}days}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{trending\PYZus{}date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{tags\PYZus{}days}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{trending\PYZus{}date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{dt}\PY{o}{.}\PY{n}{to\PYZus{}period}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{M}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+    \PY{n}{tags\PYZus{}days}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tags}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{tags\PYZus{}days}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tags}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{str}\PY{o}{.}\PY{n}{lower}\PY{p}{(}\PY{p}{)}
+    \PY{n}{tags\PYZus{}days}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tags}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{tags\PYZus{}days}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tags}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{str}\PY{o}{.}\PY{n}{replace}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdq{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{tags\PYZus{}days}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tags}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{tags\PYZus{}days}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tags}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{str}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{|}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{tags\PYZus{}days} \PY{o}{=} \PY{n}{explode}\PY{p}{(}\PY{n}{tags\PYZus{}days}\PY{p}{,} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tags}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{fill\PYZus{}value}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+    \PY{n}{tags\PYZus{}month\PYZus{}group} \PY{o}{=} \PY{n}{tags\PYZus{}days}\PY{o}{.}\PY{n}{groupby}\PY{p}{(}\PY{n}{by}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{trending\PYZus{}date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+    \PY{n}{figure}\PY{p}{,} \PY{n}{axes} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{4}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}
+    \PY{k}{for} \PY{n}{index}\PY{p}{,} \PY{n}{month} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{tags\PYZus{}month\PYZus{}group}\PY{o}{.}\PY{n}{groups}\PY{o}{.}\PY{n}{keys}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+        \PY{n}{tags\PYZus{}month} \PY{o}{=} \PY{n}{tags\PYZus{}month\PYZus{}group}\PY{o}{.}\PY{n}{get\PYZus{}group}\PY{p}{(}\PY{n}{month}\PY{p}{)}
+        \PY{n}{tags\PYZus{}frequency} \PY{o}{=} \PY{n}{tags\PYZus{}month}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tags}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{value\PYZus{}counts}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{l+m+mi}{20}\PY{p}{)}
+
+        \PY{c+c1}{\PYZsh{}tags\PYZus{}frequency = tags\PYZus{}frequency.drop(\PYZsq{}[none]\PYZsq{}, axis=0).sort\PYZus{}values()}
+        \PY{n}{tags\PYZus{}frequency} \PY{o}{=} \PY{n}{tags\PYZus{}frequency}\PY{o}{.}\PY{n}{sort\PYZus{}values}\PY{p}{(}\PY{p}{)}
+
+        \PY{n}{axes}\PY{p}{[}\PY{n+nb}{int}\PY{p}{(}\PY{n}{index}\PY{o}{/}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{,} \PY{n}{index}\PY{o}{\PYZpc{}}\PY{k}{2}].set\PYZus{}title(\PYZdq{}\PYZob{}\PYZcb{}\PYZdq{}.format(month))
+        \PY{n}{tags\PYZus{}frequency}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{kind}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{barh}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} 
+                            \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{20}\PY{p}{,}\PY{l+m+mi}{20}\PY{p}{)}\PY{p}{,}
+                            \PY{n}{ax}\PY{o}{=}\PY{n}{axes}\PY{p}{[}\PY{n+nb}{int}\PY{p}{(}\PY{n}{index}\PY{o}{/}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{,} \PY{n}{index}\PY{o}{\PYZpc{}}\PY{k}{2}])
+
+    \PY{n}{figure}\PY{o}{.}\PY{n}{suptitle}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Tags les plus populaire par mois en France}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{nombre de tags}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{56}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{display\PYZus{}tag\PYZus{}per\PYZus{}country}\PY{p}{(}\PY{n}{videos\PYZus{}cleanfr}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{projet_files/projet_39_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{57}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{display\PYZus{}tag\PYZus{}per\PYZus{}country}\PY{p}{(}\PY{n}{videos\PYZus{}cleande}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{projet_files/projet_40_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{58}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{display\PYZus{}tag\PYZus{}per\PYZus{}country}\PY{p}{(}\PY{n}{videos\PYZus{}cleangb}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{projet_files/projet_41_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{conclusion-sur-les-tags}{%
+\subsubsection{3.3.4 Conclusion sur les
+Tags}\label{conclusion-sur-les-tags}}
+
+Le résultat concernant le tag {[}none{]} reste le même pour la France et
+l'Allemagne néanmoins on peut remarquer que en Grande Bretagne les tags
+les plus populaires sont souvent en liens avec l'humour (``funny'',
+``comedy''), les autres tags sont cette fois bien différent celon le
+mois que l'on visionne, il semble donc bien y a voir un liens entre la
+periode de publication et les tags utlisés, on voit par exemple que lors
+de la période où Johnny Haliday est mort, en France, le tag ``Johnny
+Halliday'' est le 3eme plus utilisé. Pourtant ce résultat est bien
+spécifique à la France on pourra ensuite comparer ces résultat avec les
+résultat des dataframes d'autres pays pour voir si certains tags sont
+internationals.
+
+    \hypertarget{analyse-des-catuxe9gories}{%
+\subsubsection{3.3.5 Analyse des
+catégories}\label{analyse-des-catuxe9gories}}
+
+Dans la cellule suivante le résultat obtenue est un classement des
+catégorie les plus vues, encore une fois en France. On pourra plus tard
+lié les tags au catégorie pour permettre de savoir quels sont les tags
+les plus populaires et efficace dans chaque catégorie.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{59}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{cat\PYZus{}per\PYZus{}likes} \PY{o}{=} \PY{n}{videos\PYZus{}clean}\PY{o}{.}\PY{n}{filter}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{category\PYZus{}id}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{views}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{category\PYZus{}grouped} \PY{o}{=} \PY{n}{cat\PYZus{}per\PYZus{}likes}\PY{o}{.}\PY{n}{groupby}\PY{p}{(}\PY{n}{by}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{category\PYZus{}id}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{sort\PYZus{}values}\PY{p}{(}\PY{n}{by}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{views}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{ascending}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+
+\PY{n}{category\PYZus{}grouped} \PY{o}{=} \PY{n}{category\PYZus{}grouped}\PY{o}{.}\PY{n}{reset\PYZus{}index}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{category\PYZus{}grouped}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{category\PYZus{}id}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{category\PYZus{}grouped}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{category\PYZus{}id}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{str}\PY{p}{)}
+
+\PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FR\PYZus{}category\PYZus{}id.json}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{k}{as} \PY{n}{category\PYZus{}file}\PY{p}{:}
+    \PY{n}{category\PYZus{}data} \PY{o}{=} \PY{p}{(}\PY{n}{json}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{n}{category\PYZus{}file}\PY{p}{)}\PY{p}{)}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{items}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+    
+\PY{n}{category\PYZus{}id} \PY{o}{=} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+\PY{k}{for} \PY{n}{cat} \PY{o+ow}{in} \PY{n}{category\PYZus{}data}\PY{p}{:}
+    \PY{n}{category\PYZus{}id}\PY{p}{[}\PY{n}{cat}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{id}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]} \PY{o}{=}  \PY{n}{cat}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{snippet}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{title}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+
+\PY{n}{category\PYZus{}grouped}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{category\PYZus{}id}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{category\PYZus{}grouped}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{category\PYZus{}id}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{map}\PY{p}{(}\PY{n}{category\PYZus{}id}\PY{p}{)}
+
+\PY{n}{category\PYZus{}grouped}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{kind}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{barh}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                      \PY{n}{y}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{views}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                      \PY{n}{x}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{category\PYZus{}id}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                      \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,}\PY{l+m+mi}{10}\PY{p}{)}\PY{p}{,}
+                      \PY{n}{title}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Most viewed category in trending videos}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                     \PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{nombre de tags}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{projet_files/projet_44_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    Dans la cellule suivante, on essaye de visualiser les mots les plus
+utilisés dans les titres des videos en tendance, cela n'est qu'une
+ébauche.
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}
